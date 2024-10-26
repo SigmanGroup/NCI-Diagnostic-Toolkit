@@ -4,14 +4,10 @@ import numpy as np
 
 #from sklearn.metrics import r2_score
 from scipy.stats import linregress as lr
-<<<<<<< HEAD
-#from numpy.polynomial import Polynomial
+from numpy.polynomial import Polynomial
 from sklearn.preprocessing import PolynomialFeatures
-=======
->>>>>>> parent of 76c6306 (Me-CH3 synonym detection)
 #import statsmodels.api as sm
 #import statsmodels.formula.api as smf
-#from sklearn.preprocessing import PolynomialFeatures
 
 def CORRELOPT(df_ref, df_inp):
 
@@ -131,18 +127,6 @@ def CORREL(df_ref, df_inp, nci_, nrg_):
         #df_plots[p]['Xpos'] = [x.iloc(i) for i in range(len(resids)) if float(resids.iloc(i)) >= 0]
         #df_plots[p]['Xneg'] = [x.iloc(i) for i in range(len(resids)) if float(resids.iloc(i)) < 0]
 
-<<<<<<< HEAD
-        poly = np.polynomial.polynomial.Polynomial.fit(x, resids, 2).convert().coef
-        y_resid_pred = ((x**2)*poly[2]) + (x*poly[1]) + poly[0]
-        #print(poly)
-        #m_p, b_p, r2_p, p_p, std_err_p = lr(x, )
-        #print(resids, y_resid_pred)
-        r2_p = r2_score(resids, y_resid_pred)
-        df_correls['Residual R^2'].append(r2_p)
-
-        #y_resid_pred = (m_p * x) + b_p
-        df_plots[p]['Y_resid_pred'] = y_resid_pred.tolist()
-=======
         poly = np.poly1d(np.polyfit(y, resids, 2))
         #eqn = a2 * np.square(resids) + b2 * resids + c2
         #y_resid = a2 * np.square(resids) + b2 * resids + c2
@@ -153,7 +137,6 @@ def CORREL(df_ref, df_inp, nci_, nrg_):
 
         y_resid_pred = poly(y)
         df_plots[p]['Y_resid_pred'] = y_resid_pred
->>>>>>> parent of 76c6306 (Me-CH3 synonym detection)
 
         nci_score = (abs(rho) + (r2 - r2_p)) / 2
 
