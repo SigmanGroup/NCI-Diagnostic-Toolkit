@@ -12,7 +12,7 @@ from sklearn.preprocessing import PolynomialFeatures
 def CORRELOPT(df_ref, df_inp):
 
     df_opt = pd.merge(df_ref, df_inp, how='inner', on=['Arene Fragment or Substituent']).dropna()
-
+    print(df_opt)
     params = df_ref.columns[1:-1]
 
     df_correls = {'Parameter':[], 'Pearson R':[], 'R^2':[], "Spearman's Rho":[]}
@@ -85,10 +85,11 @@ def CORREL(df_ref, df_inp, nci_, nrg_):
     df_plots = {}
     # for each probe
     for p in nci_switcher[nci_.lower()]:
+        df_ = df_ref[df_ref['Probe'] == p].dropna()
+        if df_.empty:
+            continue
         df_correls['Probe'].append(p)
         df_plots[p] = {}
-
-        df_ = df_ref[df_ref['Probe'] == p].dropna()
         df_plots[p]['Arene Fragment or Substituent'] = df_['Arene Fragment or Substituent']
 
         x = df_[nrg_switcher[nrg_.lower()]].astype(float)
@@ -99,6 +100,7 @@ def CORREL(df_ref, df_inp, nci_, nrg_):
         # Spearman
         df_plots[p]['X_rank'] = x.rank()
         df_plots[p]['Y_rank'] = y.rank()
+        #print(p)
         m_r, b_r, r2_r_, p_R, std_err_r = lr(df_plots[p]['X_rank'], df_plots[p]['Y_rank'])
 
         rho = x.corr(y, method='spearman')
